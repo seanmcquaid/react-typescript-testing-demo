@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import './App.css';
 import TextInput from './components/TextInput/TextInput';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import Button from './components/Button/Button';
 const App: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
   const [textAdded, setTextAdded] = useState<Array<String>>([]);
+  const inputTextRef = useRef<HTMLInputElement>(null);
 
   const inputTextOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const buttonOnClick = useCallback(() => {
     setTextAdded([...textAdded, inputText]);
     setInputText("");
+    inputTextRef?.current?.focus();
   },[textAdded, inputText]);
 
 
@@ -25,6 +27,7 @@ const App: React.FC = () => {
       <TextInput
         value={inputText}
         onChange={inputTextOnChange}
+        ref={inputTextRef}
       />
       <Button
         title="Click Me!"
